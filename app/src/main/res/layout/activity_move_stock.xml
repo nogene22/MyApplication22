@@ -14,9 +14,9 @@
         android:layout_centerHorizontal="true"
         android:layout_marginStart="140dp"
         android:layout_marginTop="776dp"
-        android:background="#167574"
+        android:background="#06D6A0"
         android:text="HOME"
-        android:textColor="#FFFFFF" />
+        android:textColor="#000000" />
 
 
 </RelativeLayout>

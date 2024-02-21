@@ -9,8 +9,8 @@
 
     <EditText
         android:id="@+id/productIdEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="383dp"
+        android:layout_height="51dp"
         android:layout_alignParentTop="true"
         android:layout_marginTop="62dp"
         android:layout_marginBottom="16dp"
@@ -24,21 +24,33 @@
 
     <Button
         android:id="@+id/fetchButton"
-        android:layout_width="wrap_content"
+        android:layout_width="107dp"
         android:layout_height="wrap_content"
-        android:text="Fetch Data"
         android:layout_below="@id/productIdEditText"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:textColor="#FFFFFF"
-        android:background="#167574"/>
+        android:layout_marginTop="29dp"
+        android:background="#06D6A0"
+        android:text="Fetch Data"
+        android:textColor="#000000" />
+
+    <!-- New Button for showing all information -->
+    <Button
+        android:id="@+id/showAllButton"
+        android:layout_width="109dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fetchButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="#06D6A0"
+        android:text="Show All"
+        android:textColor="#000000" />
 
     <GridLayout
         android:id="@+id/buttonGrid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/fetchButton"
-        android:layout_marginTop="189dp"
+        android:layout_below="@id/showAllButton"
+        android:layout_marginTop="20dp"
         android:alignmentMode="alignMargins"
         android:columnCount="2"
         android:columnOrderPreserved="false"
@@ -52,11 +64,9 @@
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="8dp"
-            android:background="#167574"
-            android:drawableStart="@drawable/ic_plus"
-            android:gravity="start|center_vertical"
+            android:background="#06D6A0"
             android:text="Add Stock"
-            android:textColor="#FFFFFF" />
+            android:textColor="#000000" />
 
         <Button
             android:id="@+id/moveStockButton"
@@ -66,9 +76,13 @@
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="8dp"
-            android:background="#167574"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="#06D6A0"
             android:text="Move Stock"
-            android:textColor="#FFFFFF" />
+            android:textColor="#000000" />
 
         <Button
             android:id="@+id/sellStockButton"
@@ -78,9 +92,13 @@
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="8dp"
-            android:background="#167574"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="#06D6A0"
             android:text="Sell Stock"
-            android:textColor="#FFFFFF" />
+            android:textColor="#000000" />
 
         <Button
             android:id="@+id/adjustStockButton"
@@ -90,9 +108,15 @@
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="8dp"
-            android:background="#167574"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="#06D6A0"
             android:text="Adjust Stock"
-            android:textColor="#FFFFFF" />
+            android:textColor="#000000" />
+
+
 
     </GridLayout>
 
