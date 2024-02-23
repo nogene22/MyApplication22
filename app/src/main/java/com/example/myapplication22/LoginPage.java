@@ -33,7 +33,7 @@ public class LoginPage extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
          //Ensuring the action bar is not null and setting the title
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Noah's Login Screen");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("");
 
         // Initialize UI elements
         editTextUsername = findViewById(R.id.editTextUsername);
@@ -55,10 +55,10 @@ public class LoginPage extends AppCompatActivity {
     }
 
     private void performLogin(final String username, final String password) {
-        String url = "http://192.168.1.8:3000/api/users/login";
+        String url = "http://172.16.0.45:8080/users/login";
         JSONObject jsonBody = new JSONObject();
         try {
-            jsonBody.put("name", username);
+            jsonBody.put("username", username); // Change to "username"
             jsonBody.put("password", password);
             Log.d("LoginRequest", "Request payload: " + jsonBody.toString());
         } catch (JSONException e) {
@@ -68,24 +68,19 @@ public class LoginPage extends AppCompatActivity {
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonBody,
                 response -> {
-                    try {
-                        boolean success = response.getBoolean("Login successful");
-                        if (success) {
-                            Toast.makeText(LoginPage.this, "Login successful", Toast.LENGTH_SHORT).show();
-                            // Navigate to Homepage
-                            Intent intent = new Intent(LoginPage.this, MainActivity.class);
-                            startActivity(intent);
-                            finish(); // Optionally finish LoginPage
-                        } else {
-                            Toast.makeText(LoginPage.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        Toast.makeText(LoginPage.this, "Parsing error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    boolean success = response.has("message"); // Check for presence of "message"
+                    if (success) {
+                        Toast.makeText(LoginPage.this, "Login successful", Toast.LENGTH_SHORT).show();
+                        // Navigate to Homepage
+                        Intent intent = new Intent(LoginPage.this, MainActivity.class);
+                        startActivity(intent);
+                        finish(); // Optionally finish LoginPage
+                    } else {
+                        Toast.makeText(LoginPage.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
                     }
                 },
                 error -> {
-                    Toast.makeText(LoginPage.this, "Request error: " + error.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginPage.this, "Invalid username or password: " , Toast.LENGTH_SHORT).show();
                 }
         );
 
@@ -93,3 +88,4 @@ public class LoginPage extends AppCompatActivity {
         Volley.newRequestQueue(this).add(jsonObjectRequest);
     }
 }
+

@@ -1,103 +1,132 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#30332E"
-    android:padding="16dp"
     tools:context=".AddStockActivity">
 
+    <!-- Toolbar -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#167574"
+        android:background="@color/Turq"
         android:elevation="4dp"
         android:gravity="end"
         android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
 
-<!--        <Button-->
-<!--            android:id="@+id/goBackButton"-->
-<!--            android:layout_width="104dp"-->
-<!--            android:layout_height="66dp"-->
-<!--            android:layout_gravity="end"-->
-<!--            android:text="HOME"-->
-<!--            android:textColor="#000000" />-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginStart="16dp"
+            android:text="Add Stock"
+            android:textColor="@color/black"
+            android:textSize="23sp"
+            android:textStyle="bold" />
+        <Button
+            android:id="@+id/goBackButton"
+            android:layout_width="104dp"
+            android:layout_height="66dp"
+            android:layout_gravity="end"
+            android:background="@color/Turq"
+            android:text="HOME"
+            android:textColor="@color/black" />
     </androidx.appcompat.widget.Toolbar>
-
-    <!-- ID EditText -->
-    <EditText
-        android:id="@+id/itemName"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="#ffffff"
-        android:hint="Item Name"
-        android:padding="8dp"
-        android:textColorHint="#000000" />
+        android:padding="16dp">
 
-    <!-- Name EditText -->
-    <EditText
-        android:id="@+id/itemDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/itemName"
-        android:layout_marginTop="16dp"
-        android:background="#ffffff"
-        android:hint="Item Description"
-        android:padding="8dp"
-        android:textColorHint="#000000" />
+        <!-- Item Name EditText -->
+        <EditText
+            android:id="@+id/itemName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="80dp"
+            android:background="@color/white"
+            android:hint="Item Name"
+            android:padding="8dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black" />
 
-    <!-- Quantity EditText -->
-    <EditText
-        android:id="@+id/quantityEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/itemDescription"
-        android:layout_marginTop="16dp"
-        android:background="#ffffff"
-        android:hint="Quantity"
-        android:padding="8dp"
-        android:textColorHint="#000000" />
 
-    <!-- Batch Number EditText -->
-    <EditText
-        android:id="@+id/batchNumber"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/quantityEditText"
-        android:layout_marginTop="16dp"
-        android:background="#ffffff"
-        android:hint="Batch Number"
-        android:padding="8dp"
-        android:textColorHint="#000000" />
+        <!-- Batch Number EditText -->
+        <EditText
+            android:id="@+id/batchNo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/itemName"
+            android:layout_marginTop="16dp"
+            android:background="@color/white"
+            android:hint="Batch Number"
+            android:padding="8dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black" />
 
-    <!-- Add Button -->
-    <Button
-        android:id="@+id/addButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/batchNumber"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="12dp"
-        android:background="#06D6A0"
-        android:text="Add Stock"
-        android:textColor="#000000" />
+        <!-- Company EditText -->
+        <EditText
+            android:id="@+id/company"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/batchNo"
+            android:layout_marginTop="16dp"
+            android:background="@color/white"
+            android:hint="Company"
+            android:padding="8dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black" />
 
-    <!-- Go Back Button -->
-    <Button
-        android:id="@+id/goBackButton"
-        android:layout_width="104dp"
-        android:layout_height="66dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="148dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="40dp"
-        android:background="#06D6A0"
-        android:text="HOME"
-        android:textColor="#000000" />
+        <!-- Quantity EditText -->
+        <EditText
+            android:id="@+id/itemQuantity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/company"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:background="@color/white"
+            android:hint="Quantity"
+            android:padding="8dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black" />
 
+        <!-- Quality EditText -->
+        <EditText
+            android:id="@+id/itemQuality"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/itemQuantity"
+            android:layout_marginTop="16dp"
+            android:background="@color/white"
+            android:hint="Quality"
+            android:padding="8dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black" />
+
+        <!-- Location Spinner -->
+        <Spinner
+            android:id="@+id/locationSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/itemQuality"
+            android:layout_marginTop="16dp"
+            android:hint="Select Location"
+            android:padding="8dp"
+            android:background="@color/white" />
+
+        <!-- Add Button -->
+        <Button
+            android:id="@+id/addButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/locationSpinner"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="24dp"
+            android:background="#06D6A0"
+            android:text="Add Stock"
+            android:textColor="#000000" />
+    </RelativeLayout>
 </RelativeLayout>

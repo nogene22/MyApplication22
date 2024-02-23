@@ -1,13 +1,16 @@
 package com.example.myapplication22;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -26,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     Button fetchButton;
     Button addStockButton;
     Button moveStockButton;
-    Button sellStockButton;
+    Button logOutButton;
     Button adjustStockButton;
     Button showAllButton; // New button for showing all information
 
@@ -37,148 +40,54 @@ public class MainActivity extends AppCompatActivity {
 
         productIdEditText = findViewById(R.id.productIdEditText);
         fetchButton = findViewById(R.id.fetchButton);
-        addStockButton = findViewById(R.id.addStockButton);
-        moveStockButton = findViewById(R.id.moveStockButton);
-        sellStockButton = findViewById(R.id.sellStockButton);
-        adjustStockButton = findViewById(R.id.adjustStockButton);
-        showAllButton = findViewById(R.id.showAllButton); // Initialize the button
-
         fetchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String productId = productIdEditText.getText().toString();
                 fetchDataFromApi(productId);
-                Toast.makeText(MainActivity.this, "Product ID: " + productId, Toast.LENGTH_SHORT).show();
             }
         });
 
-        addStockButton.setOnClickListener(new View.OnClickListener() {
+        addStockButton = findViewById(R.id.addStockButton);
+        addStockButton.setOnClickListener(view -> onButtonClicked(AddStockActivity.class));
+
+        moveStockButton = findViewById(R.id.moveStockButton);
+        moveStockButton.setOnClickListener(view -> onButtonClicked(MoveStockActivity.class));
+
+        adjustStockButton = findViewById(R.id.adjustStockButton);
+        adjustStockButton.setOnClickListener(view -> onButtonClicked(AdjustStockActivity.class));
+
+        showAllButton = findViewById(R.id.showAllButton);
+        showAllButton.setOnClickListener(view -> onButtonClicked(allStock.class));
+
+        logOutButton = findViewById(R.id.endProcess);
+        logOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, AddStockActivity.class));
+                // Finish the current activity
+                finish();
+
+                // login page
+                Intent intent = new Intent(MainActivity.this, LoginPage.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
             }
         });
 
-        moveStockButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, MoveStockActivity.class));
-            }
-        });
 
 
-        sellStockButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, SellStockActivity.class));
-            }
-        });
 
-        adjustStockButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, AdjustStockActivity.class));
-            }
-        });
+    }
 
-        // Set onClickListener for the showAllButton
-        showAllButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fetchAllDataFromApi(); // Call method to fetch all data from API
-            }
-        });
+    private void onButtonClicked(Class<?> destinationClass) {
+        Log.d("MainActivity", "Destination class: " + destinationClass.getSimpleName());
+        Intent intent = new Intent(MainActivity.this, destinationClass);
+        Log.d("MainActivity", "intent is: " + intent);
+        startActivity(intent);
     }
 
 
     private void fetchDataFromApi(final String productId) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    HttpURLConnection urlConnection = null;
-                    BufferedReader reader = null;
-                    String jsonData = null;
-                    try {
-                        // Construct the URL
-                        URL url = new URL("http://172.16.0.45:8000/items");
-
-                        // Open connection
-                        urlConnection = (HttpURLConnection) url.openConnection();
-                        urlConnection.setRequestMethod("GET");
-                        urlConnection.connect();
-
-                        // Read the input stream into a String
-                        StringBuilder buffer = new StringBuilder();
-                        reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-                        String line;
-                        while ((line = reader.readLine()) != null) {
-                            buffer.append(line).append("\n");
-                        }
-                        if (buffer.length() == 0) {
-                            // Stream was empty. No point in parsing.
-                            return;
-                        }
-                        jsonData = buffer.toString();
-                    } catch (IOException e) {
-                        Log.e("MainActivity", "Error ", e);
-                    } finally {
-                        // Close the HttpURLConnection and BufferedReader
-                        if (urlConnection != null) {
-                            urlConnection.disconnect();
-                        }
-                        if (reader != null) {
-                            try {
-                                reader.close();
-                            } catch (final IOException e) {
-                                Log.e("MainActivity", "Error closing stream", e);
-                            }
-                        }
-                    }
-
-                    // Parse JSON data
-                    if (jsonData != null) {
-                        try {
-                            JSONArray jsonArray = new JSONArray(jsonData);
-                            StringBuilder resultData = new StringBuilder();
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                int id = jsonObject.getInt("id");
-                                String name = jsonObject.getString("name");
-                                String company = jsonObject.getString("company");
-                                int quantity = jsonObject.getInt("quantity");
-                                String date = jsonObject.getString("date");
-                                String quality = jsonObject.getString("quality");
-
-                                // Append data to StringBuilder
-                                resultData.append("ID: ").append(id)
-                                        .append(", Name: ").append(name)
-                                        .append(", Company: ").append(company)
-                                        .append(", Quantity: ").append(quantity)
-                                        .append(", Date: ").append(date)
-                                        .append(", Quality: ").append(quality)
-                                        .append("\n");
-                            }
-
-                            // Display data using Toast
-                            final String dataToShow = resultData.toString();
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(MainActivity.this, dataToShow, Toast.LENGTH_LONG).show();
-                                }
-                            });
-
-                        } catch (JSONException e) {
-                            Log.e("MainActivity", "Error parsing JSON", e);
-                        }
-                    }
-                }
-            }).start();
-        }
-
-
-
-    private void fetchAllDataFromApi() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -186,8 +95,10 @@ public class MainActivity extends AppCompatActivity {
                 BufferedReader reader = null;
                 String jsonData = null;
                 try {
-                    // Construct the URL
-                    URL url = new URL("http://172.16.0.45:8000/items");
+                    // Construct the URL with productId
+                    String apiUrl = "http://172.16.0.45:8080/items/" + productId;
+                    URL url = new URL(apiUrl);
+
                     // Open connection
                     urlConnection = (HttpURLConnection) url.openConnection();
                     urlConnection.setRequestMethod("GET");
@@ -206,6 +117,13 @@ public class MainActivity extends AppCompatActivity {
                     }
                     jsonData = buffer.toString();
                 } catch (IOException e) {
+                    // Display toast message if connection fails
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(MainActivity.this, "Item not in Stock", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                     Log.e("MainActivity", "Error ", e);
                 } finally {
                     // Close the HttpURLConnection and BufferedReader
@@ -221,36 +139,40 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
-                // Parse JSON data
+                // Parse JSON data and append each section on a new line
                 if (jsonData != null) {
                     try {
-                        JSONArray jsonArray = new JSONArray(jsonData);
-                        StringBuilder allData = new StringBuilder();
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject jsonObject = jsonArray.getJSONObject(i);
-                            int id = jsonObject.getInt("id");
-                            String name = jsonObject.getString("name");
-                            String company = jsonObject.getString("company");
-                            int quantity = jsonObject.getInt("quantity");
-                            String date = jsonObject.getString("date");
-                            String quality = jsonObject.getString("quality");
+                        JSONObject jsonObject = new JSONObject(jsonData);
+                        int id = jsonObject.getInt("id");
+                        String name = jsonObject.getString("name");
+                        String company = jsonObject.getString("company");
+                        int quantity = jsonObject.getInt("quantity");
+                        String date = jsonObject.getString("date");
+                        String quality = jsonObject.getString("quality");
 
-                            // Append data to StringBuilder
-                            allData.append("ID: ").append(id)
-                                    .append(", Name: ").append(name)
-                                    .append(", Company: ").append(company)
-                                    .append(", Quantity: ").append(quantity)
-                                    .append(", Date: ").append(date)
-                                    .append(", Quality: ").append(quality)
-                                    .append("\n");
-                        }
+                        // Create data string
+                        final String dataToShow = "ID: " + id + "\n" +
+                                "Name: " + name + "\n" +
+                                "Company: " + company + "\n" +
+                                "Quantity: " + quantity + "\n" +
+                                "Date: " + date + "\n" +
+                                "Quality: " + quality;
 
-                        // Display data using Toast
-                        final String dataToShow = allData.toString();
+                        // Display data in a dialog
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(MainActivity.this, dataToShow, Toast.LENGTH_LONG).show();
+                                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                                builder.setTitle("Product Details");
+                                builder.setMessage(dataToShow);
+                                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                                AlertDialog dialog = builder.create();
+                                dialog.show();
                             }
                         });
 
@@ -261,6 +183,4 @@ public class MainActivity extends AppCompatActivity {
             }
         }).start();
     }
-
-
 }

@@ -21,7 +21,8 @@
 
         <!-- Launcher Activity: LoginPage -->
         <activity
-            android:name=".MainActivity"
+            android:name=".LoginPage"
+            android:label="Login Page"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,11 +32,11 @@
 
         <!-- Normal Activities -->
         <activity
-            android:name=".LoginPage"
-            android:label="Main Activity" />
+            android:name=".allStock"
+            android:label="All Stock" />
         <activity
-            android:name=".SellStockActivity"
-            android:label="Sell Stock" />
+            android:name=".MainActivity"
+            android:label="Main Activity" />
         <activity
             android:name=".AddStockActivity"
             android:label="Add Stock" />
@@ -43,8 +44,15 @@
             android:name=".MoveStockActivity"
             android:label="Move Stock" />
         <activity
+            android:name=".ModifyLocationActivity"
+            android:label="change local" />
+        <activity
             android:name=".AdjustStockActivity"
             android:label="Adjust Stock" />
+        <activity
+            android:name=".ModifyQuantityActivity"
+            android:label="Adjust quanatity" />
+
     </application>
 
 </manifest>
